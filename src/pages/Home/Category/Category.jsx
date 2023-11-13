@@ -21,7 +21,7 @@ const Category = () => {
             <Swiper
                 slidesPerView={4}
                 spaceBetween={30}
-                centeredSlides={true}
+                centeredSlides={false}
                 className="mySwiper my-24"
             >
                 <SwiperSlide>
