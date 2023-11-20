@@ -1,18 +1,20 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from 'sweetalert2'
 
 
 const Register = () => {
 
-    const { createUser } = useContext(AuthContext);
+    const { createUser, updateUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm()
 
@@ -26,24 +28,35 @@ const Register = () => {
                 Swal.fire({
                     title: "Successfully registered User",
                     showClass: {
-                      popup: `
+                        popup: `
                         animate__animated
                         animate__fadeInUp
                         animate__faster
                       `
                     },
                     hideClass: {
-                      popup: `
+                        popup: `
                         animate__animated
                         animate__fadeOutDown
                         animate__faster
                       `
                     }
-                  });
+                });
+
+                updateUser(data.name, data.photoURL)
+                    .then(() => {
+                        // Profile updated!
+                        // ...
+                    }).catch((error) => {
+                        console.log(error)
+                    });
             })
             .catch(err => {
                 console.log(err);
             })
+
+            reset();
+            navigate('/');
     }
 
     return (
@@ -70,6 +83,18 @@ const Register = () => {
                                     className="input input-bordered"
                                 />
                                 {errors.name && <span className="text-xs mb-1 text-red-500">Name is required</span>}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">photoURL</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    {...register("photoURL", { required: true })}
+                                    placeholder="photoURL"
+                                    className="input input-bordered"
+                                />
+                                {errors.photoURL && <span className="text-xs mb-1 text-red-500">photoURL is required</span>}
                             </div>
                             <div className="form-control">
                                 <label className="label">

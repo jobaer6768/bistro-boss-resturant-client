@@ -14,21 +14,21 @@ const Navbar = () => {
                 Swal.fire({
                     title: "Logged-out successfully",
                     showClass: {
-                      popup: `
+                        popup: `
                         animate__animated
                         animate__fadeInUp
                         animate__faster
                       `
                     },
                     hideClass: {
-                      popup: `
+                        popup: `
                         animate__animated
                         animate__fadeOutDown
                         animate__faster
                       `
                     }
-                  });
-             })
+                });
+            })
             .catch(err => console.log(err));
     }
 
@@ -37,7 +37,17 @@ const Navbar = () => {
         <li><NavLink to="/menu">Menu</NavLink></li>
         <li><NavLink to="/order/Salads">Order Food</NavLink></li>
         {
-            user ? <><button onClick={handleLogOut} className="btn btn-ghost">LogOut</button></>
+            user ? <>
+                <div className="dropdown dropdown-hover">
+                    <label tabIndex={0} className="btn m-1"><img className="w-20 rounded-full" src={user.photoURL} alt="" /></label>
+                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li className="text-black">{user.displayName}</li>
+                    </ul>
+                </div>
+
+
+                <button onClick={handleLogOut} className="btn btn-ghost">LogOut</button>
+            </>
                 :
                 <><li><NavLink to="/login">Login</NavLink></li></>
         }

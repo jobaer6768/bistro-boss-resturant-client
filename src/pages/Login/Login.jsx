@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2'
@@ -10,6 +10,9 @@ import Swal from 'sweetalert2'
 const Login = () => {
 
     const { signInUser } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
 
     const [disabled, setDisabled] = useState(true);
 
@@ -41,6 +44,9 @@ const Login = () => {
                       `
                     }
                 });
+
+                // Navigate to login page
+                navigate(from, { replace: true });
             })
             .catch(err => {
                 console.log(err);
