@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from 'sweetalert2'
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 
 const Register = () => {
 
+    const axiosPublic = useAxiosPublic();
     const { createUser, updateUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -25,23 +28,32 @@ const Register = () => {
                 const loggedUser = res.user;
                 console.log(loggedUser);
 
-                Swal.fire({
-                    title: "Successfully registered User",
-                    showClass: {
-                        popup: `
-                        animate__animated
-                        animate__fadeInUp
-                        animate__faster
-                      `
-                    },
-                    hideClass: {
-                        popup: `
-                        animate__animated
-                        animate__fadeOutDown
-                        animate__faster
-                      `
-                    }
-                });
+                const registeredUser = {
+                    name: data.name,
+                    email: data.email
+                }
+                axiosPublic.post('/users', registeredUser)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                title: "Successfully registered User",
+                                showClass: {
+                                    popup: `
+                                animate__animated
+                                animate__fadeInUp
+                                animate__faster
+                              `
+                                },
+                                hideClass: {
+                                    popup: `
+                                animate__animated
+                                animate__fadeOutDown
+                                animate__faster
+                              `
+                                }
+                            });
+                        }
+                    })
 
                 updateUser(data.name, data.photoURL)
                     .then(() => {
@@ -55,8 +67,8 @@ const Register = () => {
                 console.log(err);
             })
 
-            reset();
-            navigate('/');
+        reset();
+        navigate('/');
     }
 
     return (
@@ -134,6 +146,9 @@ const Register = () => {
                             <div className="form-control mt-6">
                                 <input className="btn btn-primary" type="submit" value="Register" />
                             </div>
+                            <div className="divider"></div>
+                            <SocialLogin text={"Sign up with"}></SocialLogin>
+
                             <p className='text-xs py-2 font-semibold text-center'>
                                 Already Have an Account ? Please <Link to="/login">
                                     <span className='text-blue-500 cursor-pointer text-base'>Login</span>

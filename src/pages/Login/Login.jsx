@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2'
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 
 
 
@@ -102,6 +103,8 @@ const Login = () => {
                                 {/* change disable later */}
                                 <input disabled={false} className="btn btn-primary" type="submit" value="Login" />
                             </div>
+                            <div className="divider"></div>
+                            <SocialLogin text={"Sign in with"}></SocialLogin>
                             <p className='text-xs py-2 font-semibold text-center'>
                                 New Here ? Please <Link to="/register">
                                     <span className='text-blue-500 cursor-pointer text-base'>Register</span>
