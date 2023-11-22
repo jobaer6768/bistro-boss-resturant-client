@@ -99,7 +99,8 @@ const Login = () => {
                                 <input onBlur={handleCaptcha} type="text" name="captcha" placeholder="type the captcha above" className="input input-bordered" />
                             </div>
                             <div className="form-control mt-6">
-                                <input disabled={disabled} className="btn btn-primary" type="submit" value="Login" />
+                                {/* change disable later */}
+                                <input disabled={false} className="btn btn-primary" type="submit" value="Login" />
                             </div>
                             <p className='text-xs py-2 font-semibold text-center'>
                                 New Here ? Please <Link to="/register">
