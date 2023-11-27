@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from "../../providers/AuthProvider";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const SocialLogin = ({ text }) => {
 
     const { signInWithGoogle } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -14,7 +16,14 @@ const SocialLogin = ({ text }) => {
     const handleGoogleLogin = () => {
         signInWithGoogle()
             .then(res => {
-                console.log(res);
+                const userRegistered = {
+                    name: res.user?.displayName,
+                    email: res.user?.email
+                }
+                axiosPublic.post('/users', userRegistered)
+                    .then(res => {
+                        console.log(res);
+                    })
 
                 navigate(from);
             })

@@ -51,7 +51,7 @@ const Cart = () => {
                 <button className="btn btn-warning font-bold text-white">Pay</button>
             </div>
             <div className="overflow-x-auto">
-                <table className="table">
+                <table className="table w-full">
                     {/* head */}
                     <thead>
                         <tr>
